@@ -62,6 +62,14 @@ class User extends Authenticatable
             ->implode('');
     }
 
+    /**
+     * Relationships
+     */
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
 
 
 }

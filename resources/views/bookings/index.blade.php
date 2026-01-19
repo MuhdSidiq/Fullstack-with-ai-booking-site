@@ -1,32 +1,63 @@
 <x-layouts::app :title="__('Bookings')">
     <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Bookings</h1>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">Bookings</h1>
+            <flux:button variant="primary" icon="plus" href="{{ route('bookings.create') }}">New Booking</flux:button>
+        </div>
 
-        <div class="overflow-x-auto">
-            <table class="table-auto w-full border-collapse border border-gray-300 shadow-lg">
-                <thead>
-                    <tr class="bg-blue-100 text-blue-800">
-                        <th class="border border-gray-300 px-4 py-2">#</th>
-                        <th class="border border-gray-300 px-4 py-2">Customer Name</th>
-                        <th class="border border-gray-300 px-4 py-2">Date</th>
-                        <th class="border border-gray-300 px-4 py-2">Status</th>
+        <div class="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700">
+            <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700">
+                <thead class="bg-zinc-50 dark:bg-zinc-800">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-500 dark:text-zinc-400">#</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-500 dark:text-zinc-400">Customer</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-500 dark:text-zinc-400">Camping Site</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-500 dark:text-zinc-400">Date</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-500 dark:text-zinc-400">Status</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-500 dark:text-zinc-400">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700 bg-white dark:bg-zinc-900">
                     @forelse ($bookings as $booking)
-                        <tr class="odd:bg-white even:bg-gray-50 hover:bg-blue-50">
-                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $booking->name }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $booking->booking_date }}</td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">
-                                <span class="px-2 py-1 rounded-full text-white {{ $booking->status === 'confirmed' ? 'bg-green-500' : ($booking->status === 'pending' ? 'bg-yellow-500' : 'bg-red-500') }}">
-                                    {{ ucfirst($booking->status) }}
-                                </span>
+                        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800">
+                            <td class="px-4 py-3 text-sm">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-3">
+                                <div class="text-sm font-medium">{{ $booking->name }}</div>
+                                <div class="text-sm text-zinc-500">{{ $booking->email }}</div>
+                            </td>
+                            <td class="px-4 py-3 text-sm">{{ $booking->campingSite?->name ?? '-' }}</td>
+                            <td class="px-4 py-3 text-sm whitespace-nowrap">{{ $booking->booking_date?->format('M d, Y H:i') }}</td>
+                            <td class="px-4 py-3">
+                                @php
+                                    $color = match($booking->status) {
+                                        'Confirmed' => 'green',
+                                        'Pending' => 'yellow',
+                                        'Cancelled' => 'red',
+                                        'Rescheduled' => 'blue',
+                                        default => 'zinc',
+                                    };
+                                @endphp
+                                <flux:badge size="sm" :color="$color">{{ $booking->status }}</flux:badge>
+                            </td>
+                            <td class="px-4 py-3">
+                                <flux:dropdown>
+                                    <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal"></flux:button>
+                                    <flux:menu>
+                                        <flux:menu.item icon="eye" href="{{ route('bookings.show', $booking) }}">View</flux:menu.item>
+                                        <flux:menu.item icon="pencil" href="{{ route('bookings.edit', $booking) }}">Edit</flux:menu.item>
+                                        <flux:menu.separator />
+                                        <form method="POST" action="{{ route('bookings.destroy', $booking) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <flux:menu.item variant="danger" icon="trash" type="submit">Cancel</flux:menu.item>
+                                        </form>
+                                    </flux:menu>
+                                </flux:dropdown>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center border border-gray-300 px-4 py-2 text-gray-500">No bookings available.</td>
+                            <td colspan="6" class="px-4 py-8 text-center text-zinc-500">No bookings available.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -34,7 +65,7 @@
         </div>
 
         <div class="mt-4">
-            {{ $bookings->links() }} <!-- Added pagination links -->
+            {{ $bookings->links() }}
         </div>
     </div>
 </x-layouts::app>

@@ -25,11 +25,14 @@ class BookingFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => \App\Models\User::factory(),
+            'camping_site_id' => \App\Models\CampingSite::factory(),
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
             'booking_date' => $this->faker->dateTimeBetween('now', '+1 year'),
-            'status' => $this->faker->randomElement(['pending', 'confirmed', 'cancelled']),
+            'status' => $this->faker->randomElement(['Pending', 'Confirmed', 'Cancelled', 'Rescheduled']),
+            'remarks' => $this->faker->optional()->sentence(),
         ];
     }
 }

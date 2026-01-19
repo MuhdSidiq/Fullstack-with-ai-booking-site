@@ -1,26 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evergreen Peaks | Premium Campsite Booking</title>
-    
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Vite Assets -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;700;800&display=swap');
+
         :root {
             --primary: #1e3a2f;
             --secondary: #2d4a3e;
@@ -138,7 +126,7 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center gap-3">
-                    <div class="bg-emerald-900 p-2 rounded-lg">
+                    <div class="bg-emerald-900 p-2 rounded-lg" id="">
                         <i class="fas fa-campground text-white text-xl"></i>
                     </div>
                     <span class="text-2xl font-extrabold tracking-tight text-emerald-950 nav-logo">Evergreen Peaks</span>
@@ -151,14 +139,7 @@
                     <a href="#testimonials" class="text-gray-700 hover:text-emerald-800 transition">Reviews</a>
                     <a href="#gallery" class="text-gray-700 hover:text-emerald-800 transition">Gallery</a>
                     <a href="#contact" class="text-gray-700 hover:text-emerald-800 transition">Support</a>
-                    @auth
-                        <a href="{{ route('dashboard') }}" class="btn-primary text-white px-6 py-2.5 rounded-full text-sm font-bold">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-gray-700 hover:text-emerald-800 transition">Log in</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="btn-primary text-white px-6 py-2.5 rounded-full text-sm font-bold">Sign Up</a>
-                        @endif
-                    @endauth
+                    <a href="#sites" class="btn-primary text-white px-6 py-2.5 rounded-full text-sm font-bold">Book Now</a>
                 </div>
 
                 <!-- Mobile Toggle -->
@@ -176,14 +157,7 @@
                 <a href="#testimonials" class="mobile-link py-2 border-b border-gray-50">Testimonials</a>
                 <a href="#gallery" class="mobile-link py-2 border-b border-gray-50">Gallery</a>
                 <a href="#contact" class="mobile-link py-2 border-b border-gray-50">Contact Us</a>
-                @auth
-                    <a href="{{ route('dashboard') }}" class="bg-emerald-900 text-white text-center py-4 rounded-xl">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}" class="bg-emerald-900 text-white text-center py-4 rounded-xl">Log in</a>
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="bg-emerald-800 text-white text-center py-4 rounded-xl mt-2">Sign Up</a>
-                    @endif
-                @endauth
+                <a href="#sites" class="bg-emerald-900 text-white text-center py-4 rounded-xl">Start Booking</a>
             </div>
         </div>
     </nav>
@@ -234,11 +208,6 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="campsites-grid">
             <!-- Dynamic Content -->
-        </div>
-
-        <!-- Pagination Links -->
-        <div class="mt-12">
-            {{ $campingSites->links() }}
         </div>
     </section>
 
@@ -393,7 +362,7 @@
                 </div>
             </div>
             <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-                <p>&copy; {{ date('Y') }} Evergreen Peaks. All rights reserved.</p>
+                <p>&copy; 2026 Evergreen Peaks. All rights reserved.</p>
                 <p>Designed for the Great Outdoors.</p>
             </div>
         </div>
@@ -477,8 +446,15 @@
     </div>
 
     <script>
-        // Enhanced Data Store - Loaded from database (all sites for filtering)
-        const campsites = @json($allCampingSites);
+        // Enhanced Data Store
+        const campsites = [
+            { id: 1, name: "Cedar Ridge A1", type: "tent", price: 35, rating: 4.8, reviews: 12, image: "https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&q=80&w=800", description: "Deep in the cedar forest with maximum privacy and direct trail access." },
+            { id: 2, name: "Riverside RV Park", type: "rv", price: 55, rating: 4.9, reviews: 45, image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=800", description: "Full hookups with a stunning river view and reinforced concrete pad." },
+            { id: 3, name: "Meadow View Safari", type: "glamping", price: 120, rating: 5.0, reviews: 28, image: "https://images.unsplash.com/photo-1533167649158-6d508895b680?auto=format&fit=crop&q=80&w=800", description: "Luxury canvas tent featuring a queen-size bed, heater, and private deck." },
+            { id: 4, name: "Pine Peak Solo", type: "tent", price: 25, rating: 4.5, reviews: 8, image: "https://images.unsplash.com/photo-1496080174650-637e3f22fa03?auto=format&fit=crop&q=80&w=800", description: "Perfect for lightweight hikers looking for high altitude and quiet nights." },
+            { id: 5, name: "Sunset Ridge RV", type: "rv", price: 60, rating: 4.7, reviews: 31, image: "https://images.unsplash.com/photo-1510312305653-8ed496efbe75?auto=format&fit=crop&q=80&w=800", description: "The most iconic sunset views in the valley. High-amperage electrical hookups." },
+            { id: 6, name: "Starry Night Dome", type: "glamping", price: 150, rating: 4.9, reviews: 19, image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=800", description: "Geodesic dome with a clear roof panel for stargazing right from your pillow." }
+        ];
 
         // Global State
         let selectedSite = null;

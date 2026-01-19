@@ -1,39 +1,36 @@
 <x-layouts::app :title="__('Edit Camping Site')">
-    <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Edit Camping Site</h1>
-
-        <form action="{{ route('camping-sites.update', $campingSite) }}" method="POST" class="max-w-lg mx-auto">
+    <div class="max-w-xl mx-auto py-8">
+        <h2 class="text-2xl font-bold mb-6">Edit Camping Site</h2>
+        <form method="POST" action="{{ route('camping-sites.update', $campingSite) }}" class="space-y-6">
             @csrf
             @method('PUT')
-
-            <div class="mb-4">
-                <label for="name" class="block text-gray-700">Name</label>
-                <input type="text" name="name" id="name" value="{{ $campingSite->name }}" class="w-full border border-gray-300 rounded px-4 py-2" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="location" class="block text-gray-700">Location</label>
-                <input type="text" name="location" id="location" value="{{ $campingSite->location }}" class="w-full border border-gray-300 rounded px-4 py-2" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="capacity" class="block text-gray-700">Capacity</label>
-                <input type="number" name="capacity" id="capacity" value="{{ $campingSite->capacity }}" class="w-full border border-gray-300 rounded px-4 py-2" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="price" class="block text-gray-700">Price</label>
-                <input type="number" step="0.01" name="price" id="price" value="{{ $campingSite->price }}" class="w-full border border-gray-300 rounded px-4 py-2" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="is_prime_location" class="block text-gray-700">Prime Location</label>
-                <input type="checkbox" name="is_prime_location" id="is_prime_location" {{ $campingSite->is_prime_location ? 'checked' : '' }} class="mr-2">
-                <span>Yes</span>
-            </div>
-
-            <div class="text-center">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
+            <flux:field>
+                <flux:label>Name</flux:label>
+                <flux:input type="text" name="name" value="{{ old('name', $campingSite->name) }}" />
+                <flux:error name="name" />
+            </flux:field>
+            <flux:field>
+                <flux:label>Location</flux:label>
+                <flux:input type="text" name="location" value="{{ old('location', $campingSite->location) }}" />
+                <flux:error name="location" />
+            </flux:field>
+            <flux:field>
+                <flux:label>Capacity</flux:label>
+                <flux:input type="number" name="capacity" value="{{ old('capacity', $campingSite->capacity) }}" />
+                <flux:error name="capacity" />
+            </flux:field>
+            <flux:field>
+                <flux:label>Price</flux:label>
+                <flux:input type="number" step="0.01" name="price" value="{{ old('price', $campingSite->price) }}" />
+                <flux:error name="price" />
+            </flux:field>
+            <flux:field>
+                <flux:checkbox name="is_prime_location" value="1" :checked="old('is_prime_location', $campingSite->is_prime_location)" label="Prime Location" />
+                <flux:error name="is_prime_location" />
+            </flux:field>
+            <div class="flex gap-2">
+                <flux:button variant="primary" type="submit">Update</flux:button>
+                <flux:button variant="ghost" href="{{ route('camping-sites.index') }}">Cancel</flux:button>
             </div>
         </form>
     </div>

@@ -12,7 +12,7 @@ So that I can plan my trip based on when the site is actually free.
 
 #### Acceptance Criteria:
 
-- Calendar displays real-time availability.
+- Calendar displays availbility slots.
 - Unavailable dates are "greyed out" or unclickable.
 - Users can select a start and end date.
 
