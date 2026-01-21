@@ -522,20 +522,28 @@
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm mb-6 leading-relaxed">${site.description}</p>
-                        <div class="mt-auto flex justify-between items-center pt-6 border-t border-gray-50">
+                    <div class="mt-auto flex justify-between items-center pt-6 border-t border-gray-50">
                             <div>
                                 <span class="text-2xl font-black text-emerald-950">$${site.price}</span>
                                 <span class="text-gray-400 text-sm font-medium">/night</span>
                             </div>
-                            <button onclick="openBooking(${site.id})" class="btn-primary text-white px-6 py-3 rounded-xl font-bold text-sm">
-                                Book Site
-                            </button>
+                            <a href="/camping-sites/${site.id}" class="btn-primary text-white px-6 py-3 rounded-xl font-bold text-sm">
+                                View Details
+                            </a>
                         </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
+        
+        /* 
+           Simulated booking logic removed in favor of direct linking.
+           Keeping render logic clean.
+        */
+        window.openBooking = (id) => {
+             window.location.href = `/camping-sites/${id}`;
+        };
 
         // Booking Actions
         window.openBooking = (id) => {

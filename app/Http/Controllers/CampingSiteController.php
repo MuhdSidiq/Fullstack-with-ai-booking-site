@@ -13,6 +13,7 @@ class CampingSiteController extends Controller
     public function index()
     {
         $campingSites = CampingSite::all(); // Fetch all camping sites
+
         return view('camping-sites.index', compact('campingSites'));
     }
 
@@ -47,7 +48,7 @@ class CampingSiteController extends Controller
      */
     public function show(CampingSite $campingSite)
     {
-        //
+        return view('camping-sites.show', compact('campingSite'));
     }
 
     /**

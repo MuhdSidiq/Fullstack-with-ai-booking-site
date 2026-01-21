@@ -19,10 +19,10 @@
   - Ensure validation rules for user input (e.g., valid dates, required fields).
 
 ### Checklist:
-- [ ] Create models with relationships.
-- [ ] Design and implement database schema.
-- [ ] Develop controllers for booking operations.
-- [ ] Implement validation rules.
+- [/] Create models with relationships. 
+- [/] Design and implement database schema.
+- [/] Develop controllers for booking operations.
+- [/] Implement validation rules.
 
 ---
 

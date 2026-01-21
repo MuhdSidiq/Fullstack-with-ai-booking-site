@@ -15,6 +15,12 @@ class CampingSite extends Model
         'capacity',
         'price',
         'is_prime_location',
+        'facilities',
+        'map_url',
+    ];
+
+    protected $casts = [
+        'facilities' => 'array',
     ];
 
     public function bookings()

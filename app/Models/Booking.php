@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Corrected the namespace for HasFactory
+use Illuminate\Notifications\Notifiable;
 
 class Booking extends Model
 {
-
     use HasFactory;
+    use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -36,8 +38,11 @@ class Booking extends Model
      * Enum for booking status.
      */
     const STATUS_PENDING = 'Pending';
+
     const STATUS_CONFIRMED = 'Confirmed';
+
     const STATUS_CANCELLED = 'Cancelled';
+
     const STATUS_RESCHEDULED = 'Rescheduled';
 
     /**
@@ -51,5 +56,13 @@ class Booking extends Model
     public function campingSite()
     {
         return $this->belongsTo(CampingSite::class);
+    }
+
+    /**
+     * Route notifications for the mail channel.
+     */
+    public function routeNotificationForMail(): string
+    {
+        return $this->email;
     }
 }

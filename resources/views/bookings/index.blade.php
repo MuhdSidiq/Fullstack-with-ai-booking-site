@@ -5,6 +5,18 @@
             <flux:button variant="primary" icon="plus" href="{{ route('bookings.create') }}">New Booking</flux:button>
         </div>
 
+        @if (session('success') || request('session_id'))
+            <flux:callout variant="success" icon="check-circle" class="mb-6">
+                {{ session('success') ?? 'Payment successful! Your booking has been confirmed.' }}
+            </flux:callout>
+        @endif
+
+        @if (session('error') || request('canceled'))
+            <flux:callout variant="danger" icon="x-circle" class="mb-6">
+                {{ session('error') ?? 'Payment was cancelled. Please try again.' }}
+            </flux:callout>
+        @endif
+
         <div class="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700">
             <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700">
                 <thead class="bg-zinc-50 dark:bg-zinc-800">

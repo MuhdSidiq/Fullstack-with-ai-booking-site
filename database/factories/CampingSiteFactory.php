@@ -30,6 +30,10 @@ class CampingSiteFactory extends Factory
             'capacity' => $this->faker->numberBetween(10, 100),
             'price' => $this->faker->randomFloat(2, 50, 500),
             'is_prime_location' => $this->faker->boolean(),
+            'facilities' => $this->faker->randomElements([
+                'WiFi', 'Toilets', 'Showers', 'Electricity', 'BBQ Area', 'Parking', 'Swimming Pool', 'Pet Friendly',
+            ], $this->faker->numberBetween(2, 5)),
+            'map_url' => $this->faker->url(),
         ];
     }
 }
